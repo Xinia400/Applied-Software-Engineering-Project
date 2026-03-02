@@ -1,0 +1,5 @@
+repositories:
+  - type: zenodo
+    name: zenodo
+    query: '(qdpx OR nvpx OR atlproj OR mx OR maxqda OR "ATLAS.ti" OR NVivo)'
+    max_pages: 1

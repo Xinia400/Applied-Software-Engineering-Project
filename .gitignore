@@ -1,0 +1,17 @@
+cat > .gitignore << 'EOF'
+# Virtual env
+.venv/
+
+# Python
+__pycache__/
+*.pyc
+
+# macOS
+.DS_Store
+
+# Downloaded data (DO NOT PUSH)
+data/raw/
+
+# SQLite
+*.db-journal
+EOF
