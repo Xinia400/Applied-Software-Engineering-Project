@@ -14,4 +14,4 @@ data/raw/
 
 # SQLite
 *.db-journal
-EOF
+EOF.env

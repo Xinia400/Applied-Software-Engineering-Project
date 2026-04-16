@@ -1,5 +1,12 @@
 repositories:
-  - type: zenodo
-    name: zenodo
-    query: '(qdpx OR nvpx OR atlproj OR mx OR maxqda OR "ATLAS.ti" OR NVivo)'
-    max_pages: 1
+  - type: dans
+    name: dans
+    base_url: "https://ssh.datastations.nl"
+    query: "qdpx"
+    max_pages: 2
+
+  - type: icpsr
+    name: icpsr
+    base_url: "https://www.icpsr.umich.edu"
+    query: "interview"
+    max_pages: 2
