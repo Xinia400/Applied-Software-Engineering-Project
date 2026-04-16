@@ -104,6 +104,7 @@ It is a **repository-aware engineering adaptation**.
 
 ## Project Structure
 
+```text
 Applied-Software-Engineering-Project/
 │
 ├── README.md
@@ -148,91 +149,72 @@ Applied-Software-Engineering-Project/
     │       ├── zenodo.py
     │       ├── dataverse.py
     │       └── dryad.py
-    │
-    ├── metadata/
-    │   ├── schema.sql
-    │   ├── db_handler.py
-    │   └── validators.py
-    │
-    └── utils/
-        ├── logger.py
-        ├── file_utils.py
-        └── license_checker.py
+│
+├── metadata/
+│   ├── schema.sql
+│   ├── db_handler.py
+│   └── validators.py
+│
+└── utils/
+    ├── logger.py
+    ├── file_utils.py
+    └── license_checker.py
+```
 
 ---
 
-### Section 4 — How to Run
-
-```markdown
-### How to Run
-
-Activate environment:
+## How to Run
 
 ```bash
 source .venv/bin/activate
-
-Run the pipeline:
 python -m src.main --config config/queries.yaml --limit 50
+```
 
 ---
 
-### Section 5 — Verification
-
-```markdown
-### Verification
-
-To verify the results, I used the following commands.
-
-Check database summary:
+## Verification
 
 ```bash
 sqlite3 database/metadata.db "SELECT repository, download_status, COUNT(*) FROM qda_files GROUP BY repository, download_status ORDER BY repository;"
+```
 
-Expected output:
+```text
 dans   | OK | 4
 icpsr  | OK | 5
 zenodo | OK | 7
+```
 
-Check downloaded files:
+```bash
 find data/raw -type f | head -n 20
-This confirms that files are stored correctly.
+```
 
 ---
 
-### Section 6 — Findings
-
-```markdown
-### Findings
-
-The pipeline successfully handled different repositories:
+## Findings
 
 - DANS → direct file downloads  
 - Zenodo → direct file downloads  
 - ICPSR → XML metadata downloads  
 
-All repositories were processed successfully.
+---
 
-### Limitations
-
-There are still some practical limitations:
+## Limitations
 
 - DANS may fail temporarily due to network issues  
 - ICPSR does not provide easy access to raw dataset files  
 - ICPSR currently focuses on metadata instead of full dataset download  
 
-These limitations are related to repository behavior, not implementation errors.
+---
 
-### Final Remarks
+## Final Remarks
 
 This project showed that data acquisition is not just about downloading files.
 
 Each repository requires a different approach. A good solution needs to adapt instead of forcing a single method.
 
-That is why this pipeline uses:
-- direct download where possible  
-- metadata-based acquisition where necessary 
+---
 
-### Author
+## Author
 
 Xinia Apchora  
 FAU Erlangen-Nürnberg  
