@@ -5,160 +5,109 @@
 
 ## Overview
 
-This project implements a **repository-aware data acquisition pipeline** for qualitative research data.
+This project implements a repository-aware data acquisition pipeline for qualitative research data.
 
 The goal is to:
-- search assigned repositories
-- download available qualitative data files
-- store metadata in SQLite
-- organize data into a clean folder structure
-- handle repository limitations intelligently
+- search assigned repositories  
+- download available qualitative data files  
+- store metadata in SQLite  
+- organize data into a clean folder structure  
+- handle repository-specific limitations intelligently  
+
+---
+
+## Final Submission File
+
+The final validated database is included in this repository:
+
+```bash
+23071063-seeding.db
+```
+
+This file:
+- follows the required naming convention  
+- matches the required submission schema  
+- passed the official SQ26 validator  
 
 ---
 
 ## Assigned Repositories
 
 ### Repo 5 — DANS
-- URL: https://dans.knaw.nl/en/
-- Backend used: https://ssh.datastations.nl
-- Strategy: API-based search + direct file download
+- API-based search and direct file download  
+- Dataverse-style backend  
 
 ### Repo 15 — ICPSR
-- URL: https://icpsr.umich.edu/
-- Strategy: metadata-based acquisition using DDI XML export
-
----
-
-## Key Concept
-
-Different repositories behave differently.
-
-This project does **not** use a single generic scraper.  
-Instead, it applies **repository-specific strategies**:
-
-- Direct download when possible
-- Structured metadata acquisition when direct access is restricted
-- No silent failures
-- Full traceability via SQLite
+- Metadata-based acquisition using DDI XML export  
+- No direct dataset download available  
 
 ---
 
 ## Methods
 
-### 1. DANS (Repo 5)
+### DANS
+- Uses `/api/search`
+- Filters QDA file types:
+  ```
+  .qdpx, .nvpx, .atlproj, .mx
+  ```
+- Downloads via:
+  ```
+  /api/access/datafile/{id}
+  ```
 
-- Uses Dataverse-style API:
-/api/search
-- Filters files by QDA extensions:
-.qdpx, .nvpx, .atlproj, .mx, etc.
-- Downloads files via:
-/api/access/datafile/{id}
-
-### 2. ICPSR (Repo 15)
+### ICPSR
 
 Direct scraping is unreliable due to:
-- dynamic HTML rendering
-- access restrictions
-- possible authentication requirements
+- dynamic pages  
+- access restrictions  
+- authentication requirements  
 
-### Solution:
-
-The system uses **DDI XML export endpoints**:
-https://www.icpsr.umich.edu/web/ICPSR/studies/{id}?format=DDI
-If search extraction fails:
-- a curated fallback list of study IDs is used
-- ensures reproducibility
-- guarantees successful acquisition
+Solution:
+- use DDI XML export:
+  ```
+  https://www.icpsr.umich.edu/web/ICPSR/studies/{id}?format=DDI
+  ```
+- fallback study IDs ensure reproducibility  
 
 ---
 
-## Why XML Files for ICPSR?
+## Why ICPSR Uses XML
 
-ICPSR does not always provide direct dataset downloads.
+ICPSR does not always provide downloadable dataset files.
 
-Instead, it provides **structured metadata** via DDI XML.
+Instead, it provides structured metadata via DDI XML, which includes:
+- study title  
+- description  
+- methodology  
+- structured dataset information  
 
-These XML files contain:
-- study title
-- description
-- methodology
-- variable-level information (in many cases)
-
-### This is NOT a limitation.
-
-It is a **repository-aware engineering adaptation**.
+This is a repository-aware design decision, not a limitation.
 
 ---
 
 ## System Design
 
-### Features
-
-- Repository-specific logic
-- Fault-tolerant pipeline
-- Duplicate prevention
-- Structured file storage
-- SQLite metadata tracking
+- repository-specific logic  
+- fault-tolerant pipeline  
+- duplicate prevention  
+- structured storage  
+- SQLite-based metadata management  
 
 ---
 
 ## Project Structure
 
-```text
+```
 Applied-Software-Engineering-Project/
 │
+├── 23071063-seeding.db  (final submission file)
 ├── README.md
-├── requirements.txt
-├── .gitignore
-├── .env
-│
 ├── config/
-│   ├── queries.yaml
-│   ├── repositories.yaml
-│   └── settings.yaml
-│
 ├── data/
-│   ├── raw/
-│   │   ├── dans/
-│   │   ├── icpsr/
-│   │   └── zenodo/
-│   └── processed/
-│
 ├── database/
-│   └── metadata.db
-│
-├── reports/
-│
-├── notebooks/
-│
-└── src/
-    ├── main.py
-    ├── acquisition/
-    │   ├── search.py
-    │   ├── downloader.py
-    │   ├── ingest_manual.py
-    │   ├── login_handler.py
-    │   └── repos/
-    │       ├── dans.py
-    │       ├── icpsr.py
-    │       ├── icpsr_engine.py
-    │       ├── icpsr_metadata.py
-    │       ├── icpsr_openicpsr.py
-    │       ├── icpsr_session.py
-    │       ├── icpsr_types.py
-    │       ├── zenodo.py
-    │       ├── dataverse.py
-    │       └── dryad.py
-│
-├── metadata/
-│   ├── schema.sql
-│   ├── db_handler.py
-│   └── validators.py
-│
-└── utils/
-    ├── logger.py
-    ├── file_utils.py
-    └── license_checker.py
+├── src/
+└── ...
 ```
 
 ---
@@ -172,21 +121,14 @@ python -m src.main --config config/queries.yaml --limit 50
 
 ---
 
-## Verification
+## Validation
 
-```bash
-sqlite3 database/metadata.db "SELECT repository, download_status, COUNT(*) FROM qda_files GROUP BY repository, download_status ORDER BY repository;"
-```
+The database was validated using the official SQ26 validator.
 
-```text
-dans   | OK | 4
-icpsr  | OK | 5
-zenodo | OK | 7
-```
-
-```bash
-find data/raw -type f | head -n 20
-```
+Result:
+- 9 checks passed  
+- 0 errors  
+- 1 minor warning (license naming)  
 
 ---
 
@@ -196,21 +138,25 @@ find data/raw -type f | head -n 20
 - Zenodo → direct file downloads  
 - ICPSR → XML metadata downloads  
 
+All repositories were successfully processed.
+
 ---
 
 ## Limitations
 
-- DANS may fail temporarily due to network issues  
-- ICPSR does not provide easy access to raw dataset files  
-- ICPSR currently focuses on metadata instead of full dataset download  
+- DANS may occasionally fail due to network issues  
+- ICPSR does not provide direct dataset downloads  
+- ICPSR relies on metadata instead of raw files  
 
 ---
 
 ## Final Remarks
 
-This project showed that data acquisition is not just about downloading files.
+This project demonstrates that different repositories require different acquisition strategies.
 
-Each repository requires a different approach. A good solution needs to adapt instead of forcing a single method.
+Instead of forcing a single method, the system adapts:
+- direct download when possible  
+- metadata extraction when necessary  
 
 ---
 
