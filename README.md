@@ -7,18 +7,20 @@
 
 This project implements a repository-aware data acquisition pipeline for qualitative research data.
 
-The goal is to:
+The goal of this part was to:
 - search assigned repositories  
-- download available qualitative data files  
+- download qualitative data files  
 - store metadata in SQLite  
-- organize data into a clean folder structure  
-- handle repository-specific limitations intelligently  
+- organize downloaded content  
+- handle repository-specific limitations  
+
+Different repositories behave differently, so I implemented repository-specific strategies instead of using a single generic scraper.
 
 ---
 
 ## Final Submission File
 
-The final validated database is included in this repository:
+The final validated database is:
 
 ```bash
 23071063-seeding.db
@@ -26,27 +28,35 @@ The final validated database is included in this repository:
 
 This file:
 - follows the required naming convention  
-- matches the required submission schema  
-- passed the official SQ26 validator  
+- matches the official SQ26 schema  
+- passed the validator successfully  
 
 ---
 
 ## Assigned Repositories
 
 ### Repo 5 — DANS
-- API-based search and direct file download  
-- Dataverse-style backend  
+- API-based search  
+- direct file download  
 
 ### Repo 15 — ICPSR
-- Metadata-based acquisition using DDI XML export  
-- No direct dataset download available  
+- metadata-based acquisition  
+- DDI XML export used  
+
+### Additional Repository (Used in Pipeline)
+- Zenodo  
+- direct download supported  
 
 ---
 
 ## Methods
 
 ### DANS
-- Uses `/api/search`
+
+- Uses:
+  ```
+  /api/search
+  ```
 - Filters QDA file types:
   ```
   .qdpx, .nvpx, .atlproj, .mx
@@ -55,6 +65,8 @@ This file:
   ```
   /api/access/datafile/{id}
   ```
+
+---
 
 ### ICPSR
 
@@ -68,21 +80,87 @@ Solution:
   ```
   https://www.icpsr.umich.edu/web/ICPSR/studies/{id}?format=DDI
   ```
-- fallback study IDs ensure reproducibility  
+- fallback study IDs added  
+- ensures reproducibility  
+
+---
+
+### Zenodo
+
+- direct file download  
+- metadata stored in SQLite  
 
 ---
 
 ## Why ICPSR Uses XML
 
-ICPSR does not always provide downloadable dataset files.
+ICPSR does not always allow direct dataset download.
 
-Instead, it provides structured metadata via DDI XML, which includes:
+Instead, it provides structured metadata in DDI XML format.
+
+These XML files contain:
 - study title  
 - description  
 - methodology  
 - structured dataset information  
 
-This is a repository-aware design decision, not a limitation.
+This is a repository-aware adaptation, not a limitation.
+
+---
+
+## What I Corrected
+
+### Repository Logic
+- replaced generic scraper with repository-specific logic  
+- improved ICPSR handling  
+- added fallback IDs  
+
+### Robustness
+- handled API failures  
+- prevented crashes  
+- improved duplicate handling  
+
+### Database Fix
+- initial DB used custom schema  
+- created final submission DB:
+
+```bash
+23071063-seeding.db
+```
+
+- converted into required tables:
+  - PROJECTS  
+  - FILES  
+  - KEYWORDS  
+  - PERSON_ROLE  
+  - LICENSES  
+
+---
+
+## Final Results
+
+```
+dans   | OK | 4
+icpsr  | OK | 5
+zenodo | OK | 7
+```
+
+All repositories were processed successfully.
+
+---
+
+## Validation
+
+Validator used:
+
+```bash
+python sq26-grading/check_submission.py 23071063-seeding.db
+```
+
+Result:
+- 9 passed  
+- 0 errors  
+- 1 warning (license naming)  
 
 ---
 
@@ -92,7 +170,7 @@ This is a repository-aware design decision, not a limitation.
 - fault-tolerant pipeline  
 - duplicate prevention  
 - structured storage  
-- SQLite-based metadata management  
+- SQLite metadata tracking  
 
 ---
 
@@ -101,13 +179,66 @@ This is a repository-aware design decision, not a limitation.
 ```
 Applied-Software-Engineering-Project/
 │
-├── 23071063-seeding.db  (final submission file)
+├── 23071063-seeding.db
 ├── README.md
+├── requirements.txt
+│
 ├── config/
+│   ├── queries.yaml
+│   ├── repositories.yaml
+│   └── settings.yaml
+│
 ├── data/
+│   ├── raw/
+│   │   ├── dans/
+│   │   ├── icpsr/
+│   │   └── zenodo/
+│   └── processed/
+│
 ├── database/
+│   ├── metadata.db
+│   └── 23071063-seeding.db
+│
+├── notebooks/
+│
+├── reports/
+│
 ├── src/
-└── ...
+│   ├── main.py
+│   │
+│   ├── acquisition/
+│   │   ├── search.py
+│   │   ├── downloader.py
+│   │   ├── ingest_manual.py
+│   │   ├── login_handler.py
+│   │   │
+│   │   └── repos/
+│   │       ├── dans.py
+│   │       ├── icpsr.py
+│   │       ├── icpsr_engine.py
+│   │       ├── icpsr_metadata.py
+│   │       ├── icpsr_openicpsr.py
+│   │       ├── icpsr_session.py
+│   │       ├── icpsr_types.py
+│   │       ├── zenodo.py
+│   │       ├── dataverse.py
+│   │       └── dryad.py
+│   │
+│   ├── metadata/
+│   │   ├── schema.sql
+│   │   ├── db_handler.py
+│   │   └── validators.py
+│   │
+│   └── utils/
+│       ├── logger.py
+│       ├── file_utils.py
+│       └── license_checker.py
+│
+└── sq26-grading/
+    ├── check_submission.py
+    ├── schema-definition/
+    ├── tests/
+    └── validator/
 ```
 
 ---
@@ -121,42 +252,34 @@ python -m src.main --config config/queries.yaml --limit 50
 
 ---
 
-## Validation
+## How to Verify
 
-The database was validated using the official SQ26 validator.
+```bash
+sqlite3 database/23071063-seeding.db "SELECT COUNT(*) FROM PROJECTS;"
+```
 
-Result:
-- 9 checks passed  
-- 0 errors  
-- 1 minor warning (license naming)  
-
----
-
-## Findings
-
-- DANS → direct file downloads  
-- Zenodo → direct file downloads  
-- ICPSR → XML metadata downloads  
-
-All repositories were successfully processed.
+```bash
+find data/raw -type f | head -n 20
+```
 
 ---
 
 ## Limitations
 
-- DANS may occasionally fail due to network issues  
-- ICPSR does not provide direct dataset downloads  
-- ICPSR relies on metadata instead of raw files  
+- DANS may fail due to network issues  
+- ICPSR does not provide direct dataset download  
+- ICPSR relies on metadata extraction  
 
 ---
 
 ## Final Remarks
 
-This project demonstrates that different repositories require different acquisition strategies.
+This project demonstrates that data acquisition requires different strategies for different repositories.
 
-Instead of forcing a single method, the system adapts:
-- direct download when possible  
-- metadata extraction when necessary  
+The pipeline adapts using:
+- direct downloads  
+- API usage  
+- metadata extraction  
 
 ---
 
