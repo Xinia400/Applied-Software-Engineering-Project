@@ -1,3 +1,16 @@
+## 🚀 Project Status
+
+![Status](https://img.shields.io/badge/status-completed-success)
+![Part](https://img.shields.io/badge/part-1--acquisition-blue)
+![Validation](https://img.shields.io/badge/validation-10%2F10-brightgreen)
+[![Release](https://img.shields.io/badge/release-part--1--release-orange)](https://github.com/Xinia400/Applied-Software-Engineering-Project/releases/tag/part-1-release)
+![License](https://img.shields.io/badge/license-MIT-blue)
+![Python](https://img.shields.io/badge/python-3.10+-blue)
+![SQLite](https://img.shields.io/badge/database-SQLite-lightgrey)
+![Repo Size](https://img.shields.io/github/repo-size/Xinia400/Applied-Software-Engineering-Project)
+![Last Commit](https://img.shields.io/github/last-commit/Xinia400/Applied-Software-Engineering-Project)
+
+
 # Applied Software Engineering Project  
 ## Part 1 — Data Acquisition Pipeline for QDArchive
 
