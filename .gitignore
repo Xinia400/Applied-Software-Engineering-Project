@@ -1,17 +1,29 @@
-cat > .gitignore << 'EOF'
-# Virtual env
+# Virtual environment
 .venv/
 
-# Python
+# Python cache and test tools
 __pycache__/
-*.pyc
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
 
 # macOS
 .DS_Store
 
-# Downloaded data (DO NOT PUSH)
-data/raw/
+# Secrets
+.env
 
-# SQLite
+# Local SQ26 validator clone
+sq26-grading/
+
+# Downloaded/raw research data and peer material — never push
+data/private/
+data/raw/
+data/staging/
+data/processed/
+data/review/
+
+# SQLite temporary files
 *.db-journal
-EOF.env
+*.db-wal
+*.db-shm
