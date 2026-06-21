@@ -4,6 +4,10 @@ import hashlib
 import json
 import sqlite3
 import zipfile
+
+from src.classification.tier2_extractor import (
+    extract_qdpx_primary_text,
+)
 from collections import Counter
 from datetime import datetime, timezone
 from pathlib import Path
@@ -17,7 +21,7 @@ from src.classification.staging_schema import (
 )
 
 
-CLASSIFIER_VERSION = "official-isic-v1"
+CLASSIFIER_VERSION = "official-isic-v2-tier2"
 
 OFFICIAL_REPOSITORIES = {"5", "15"}
 
@@ -377,6 +381,9 @@ def classify_official_isic(
                     qde_text, internal_files = inspect_qdpx(
                         archive_path
                     )
+                    extracted_files, tier2_summary = (
+                        extract_qdpx_primary_text(archive_path)
+                    )
                 except (
                     OSError,
                     zipfile.BadZipFile,
@@ -392,7 +399,21 @@ def classify_official_isic(
                     continue
 
                 context_parts.append(qde_text)
-                evidence_source = "QDPX_PROJECT_METADATA"
+
+                tier2_text_by_path = {
+                    item.internal_path: item.text
+                    for item in extracted_files
+                    if item.extraction_status == "EXTRACTED"
+                }
+
+                context_parts.extend(
+                    tier2_text_by_path[path]
+                    for path in sorted(tier2_text_by_path)
+                )
+
+                evidence_source = (
+                    "METADATA_QDE_AND_TIER2_PRIMARY_CONTENT"
+                )
 
                 for internal_path, suffix in internal_files:
                     primary_file_records.append(
@@ -444,6 +465,9 @@ def classify_official_isic(
                 "primary_file_count": len(primary_file_records),
                 "isic_taxonomy": "ISIC Rev. 5",
             }
+
+            if project_type == "QDA_PROJECT":
+                evidence["tier2_extraction"] = tier2_summary
 
             connection.execute(
                 """
@@ -512,6 +536,41 @@ def classify_official_isic(
                 file_name,
                 file_extension,
             ) in primary_file_records:
+                file_classification = None
+
+                if file_origin == "QDPX_INTERNAL":
+                    file_text = tier2_text_by_path.get(
+                        file_reference,
+                        "",
+                    )
+                    file_classification = (
+                        classify_tier2_file_context(file_text)
+                        if file_text
+                        else None
+                    )
+
+                if file_classification is None:
+                    file_label = label
+                    file_rule = (
+                        "TIER2_PROJECT_CONTEXT_FALLBACK"
+                        if file_origin == "QDPX_INTERNAL"
+                        else rule
+                    )
+                    file_confidence = (
+                        min(confidence, 0.78)
+                        if file_origin == "QDPX_INTERNAL"
+                        else confidence
+                    )
+                else:
+                    (
+                        file_isic_code,
+                        file_rule,
+                        file_confidence,
+                        _file_matched_terms,
+                        _file_tags,
+                    ) = file_classification
+                    file_label = ISIC_DIVISIONS[file_isic_code]
+
                 connection.execute(
                     """
                     INSERT INTO isic_file_classifications (
@@ -542,11 +601,11 @@ def classify_official_isic(
                         file_reference,
                         file_name,
                         file_extension,
-                        label["section_code"],
-                        label["division_code"],
-                        label["title"],
-                        rule,
-                        confidence,
+                        file_label["section_code"],
+                        file_label["division_code"],
+                        file_label["title"],
+                        file_rule,
+                        file_confidence,
                         CLASSIFIER_VERSION,
                         utc_now_iso(),
                     ),
@@ -576,3 +635,63 @@ def classify_official_isic(
 
     finally:
         connection.close()
+
+
+def classify_tier2_file_context(
+    context: str,
+) -> tuple[str, str, float, list[str], list[str]] | None:
+    """Classify one primary file from its own extracted Tier 2 text.
+
+    First apply the normal two-term project rule. If that is inconclusive,
+    accept one unambiguous domain term with lower confidence. This makes
+    file-level evidence useful without overriding conflicting evidence.
+    """
+    strict_result = classify_context(context)
+
+    if strict_result is not None:
+        (
+            isic_code,
+            _rule,
+            confidence,
+            matched_terms,
+            tags,
+        ) = strict_result
+
+        return (
+            isic_code,
+            "TIER2_FILE_CONTENT_MULTI_TERM",
+            confidence,
+            matched_terms,
+            tags,
+        )
+
+    legal_hits = term_hits(context, LEGAL_TERMS)
+    research_hits = term_hits(context, RESEARCH_TERMS)
+
+    if legal_hits and not research_hits:
+        return (
+            "N69",
+            "TIER2_FILE_CONTENT_SINGLE_TERM",
+            0.80,
+            legal_hits,
+            [
+                "international-criminal-law",
+                "legal-documents",
+                "qualitative-coding",
+            ],
+        )
+
+    if research_hits and not legal_hits:
+        return (
+            "N72",
+            "TIER2_FILE_CONTENT_SINGLE_TERM",
+            0.80,
+            research_hits,
+            [
+                "citizen-sensing",
+                "environmental-risk",
+                "survey-research",
+            ],
+        )
+
+    return None
