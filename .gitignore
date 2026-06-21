@@ -16,12 +16,16 @@ __pycache__/
 # Local SQ26 validator clone
 sq26-grading/
 
-# Downloaded/raw research data and peer material — never push
+# Private peer material and downloaded/raw research data
 data/private/
 data/raw/
 data/staging/
 data/processed/
 data/review/
+
+# Generated intermediate pipeline outputs
+output/*
+!output/.gitkeep
 
 # SQLite temporary files
 *.db-journal
