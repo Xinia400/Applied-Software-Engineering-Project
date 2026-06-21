@@ -152,3 +152,44 @@ def matched_qda_terms(context: str) -> tuple[str, ...]:
 
 def is_primary_data_extension(extension: str) -> bool:
     return extension in PRIMARY_DATA_EXTENSIONS
+
+
+METADATA_ONLY_CONTEXT_TERMS = (
+    "ddi xml metadata export",
+    "metadata export",
+    "export metadata",
+    "metadata-only",
+    "metadata only",
+)
+
+METADATA_ONLY_EXTENSIONS = frozenset(
+    {
+        "xml",
+        "json",
+        "jsonld",
+        "rdf",
+        "xsd",
+        "dtd",
+    }
+)
+
+
+def is_metadata_only_context(
+    context: str,
+    primary_data_extensions: Iterable[str],
+) -> bool:
+    """Detect projects containing metadata exports but no primary data."""
+    extensions = set(primary_data_extensions)
+
+    if not extensions:
+        return False
+
+    if not extensions.issubset(METADATA_ONLY_EXTENSIONS):
+        return False
+
+    normalized_context = context.lower()
+
+    return any(
+        term in normalized_context
+        for term in METADATA_ONLY_CONTEXT_TERMS
+    )

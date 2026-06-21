@@ -12,13 +12,14 @@ from src.classification.project_type_rules import (
     HIGH_CONFIDENCE_QDA_EXTENSIONS,
     extension_from_filename,
     is_primary_data_extension,
+    is_metadata_only_context,
     matched_qda_terms,
     normalize_context,
 )
 from src.classification.staging_schema import connect_staging_database
 
 
-CLASSIFIER_VERSION = "project-type-v1"
+CLASSIFIER_VERSION = "project-type-v1.1"
 PROJECT_TYPES = (
     "QDA_PROJECT",
     "QD_PROJECT",
@@ -107,12 +108,18 @@ def classify_evidence(
         evidence["primary_data_extensions"]
     )
 
+    metadata_only = is_metadata_only_context(
+        context,
+        primary_data,
+    )
+
     audit_evidence = {
         "file_record_count": evidence["file_record_count"],
         "high_confidence_qda_extensions": high_qda,
         "ambiguous_qda_extensions": ambiguous_qda,
         "matched_qda_context_terms": list(context_terms),
         "primary_data_extensions": primary_data,
+        "metadata_only_context_detected": metadata_only,
     }
 
     if high_qda:
@@ -126,6 +133,13 @@ def classify_evidence(
         return (
             "QDA_PROJECT",
             "CONTEXT_VALIDATED_AMBIGUOUS_QDA_EXTENSION",
+            audit_evidence,
+        )
+
+    if metadata_only:
+        return (
+            "OTHER_PROJECT",
+            "METADATA_ONLY_FILE_WITHOUT_PRIMARY_DATA",
             audit_evidence,
         )
 
