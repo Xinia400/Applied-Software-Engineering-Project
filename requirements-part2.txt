@@ -7,3 +7,5 @@ rapidfuzz>=3.9,<4.0
 pytest>=8.2,<9.0
 
 pypdf>=6.12.2,<7.0
+matplotlib>=3.8,<4.0
+reportlab>=4.2,<5.0

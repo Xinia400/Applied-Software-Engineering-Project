@@ -1,0 +1,13 @@
+{
+  "final_database": "23071063-sq26-classification.db",
+  "staging_database": "data/staging/qdarchive_x_staging.db",
+  "xlsx_output": "reports/23071063-sq26-classification.xlsx",
+  "pdf_output": "reports/23071063-sq26-classification-report.pdf",
+  "generated_at_utc": "2026-06-23T00:08:20.401300+00:00",
+  "verification": {
+    "xlsx_bytes": 5755,
+    "pdf_bytes": 23032,
+    "pdf_pages": 8,
+    "project_rows": 9
+  }
+}
