@@ -578,6 +578,12 @@ The detailed verification evidence is stored in:
 Licence values for records without explicit official source evidence remain unavailable. No licence values were inferred or invented.
 
 
+## Data Challenges Report
+
+The repository includes a data-focused report covering metadata heterogeneity, licence verification, QDPX archive structure, primary-file classification boundaries, ICPSR limitations, duplicate handling, and third-party data restrictions:
+
+- reports/data_challenges.md
+
 # License and Third-Party Data Notice
 
 The project source code and original documentation are released under the MIT License.
