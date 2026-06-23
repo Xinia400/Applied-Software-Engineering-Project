@@ -3,10 +3,13 @@
   "staging_database": "data/staging/qdarchive_x_staging.db",
   "xlsx_output": "reports/23071063-sq26-classification.xlsx",
   "pdf_output": "reports/23071063-sq26-classification-report.pdf",
-  "generated_at_utc": "2026-06-23T00:08:20.401300+00:00",
+  "total_file_manifest": "reports/qdpx_total_file_manifest.json",
+  "total_project_files": 511,
+  "classified_primary_files": 507,
+  "generated_at_utc": "2026-06-23T21:10:18.611046+00:00",
   "verification": {
-    "xlsx_bytes": 5755,
-    "pdf_bytes": 23032,
+    "xlsx_bytes": 5754,
+    "pdf_bytes": 23424,
     "pdf_pages": 8,
     "project_rows": 9
   }

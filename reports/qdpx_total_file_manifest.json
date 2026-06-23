@@ -1,0 +1,47 @@
+{
+  "schema_version": 1,
+  "generated_at_utc": "2026-06-23T21:09:17.313545+00:00",
+  "counting_rule": "Counts all non-directory, non-hidden internal QDPX archive entries, including QDE project-definition files.",
+  "classification_rule": "QDE project-definition files are included in total project file counts but excluded from primary-file ISIC classification.",
+  "projects": {
+    "Sensing Risk (bertisum 2020-04-02).qdpx": {
+      "archive_path": "data/raw/dans/Sensing-Risk-bertisum-2020-04-02-.qdpx/Sensing Risk (bertisum 2020-04-02).qdpx",
+      "total_internal_files": 9,
+      "non_classified_project_definition_files": 1,
+      "extension_counts": {
+        ".pdf": 4,
+        ".qde": 1,
+        ".txt": 4
+      }
+    },
+    "International Criminal Law Charging Document Database v7.qdpx": {
+      "archive_path": "data/raw/dans/International-Criminal-Law-Charging-Document-Database-v7.qdpx/International Criminal Law Charging Document Database v7.qdpx",
+      "total_internal_files": 217,
+      "non_classified_project_definition_files": 1,
+      "extension_counts": {
+        ".pdf": 191,
+        ".qde": 1,
+        ".txt": 25
+      }
+    },
+    "Prosecution_Appeals_Briefs_V1.qdpx": {
+      "archive_path": "data/raw/dans/Prosecution_Appeals_Briefs_V1.qdpx/Prosecution_Appeals_Briefs_V1.qdpx",
+      "total_internal_files": 70,
+      "non_classified_project_definition_files": 1,
+      "extension_counts": {
+        ".pdf": 69,
+        ".qde": 1
+      }
+    },
+    "International_Criminal_Law_Charging_Document_Database_v6.qdpx": {
+      "archive_path": "data/raw/dans/International_Criminal_Law_Charging_Document_Database_v6.qdpx/International_Criminal_Law_Charging_Document_Database_v6.qdpx",
+      "total_internal_files": 215,
+      "non_classified_project_definition_files": 1,
+      "extension_counts": {
+        ".pdf": 190,
+        ".qde": 1,
+        ".txt": 24
+      }
+    }
+  }
+}

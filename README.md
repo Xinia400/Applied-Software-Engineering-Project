@@ -402,6 +402,26 @@ The project also includes official delivery automation for:
 
 # Submission Artifacts
 
+
+## Total Project File Counts
+
+For the final DANS QDPX projects, the XLSX field `no_project_files` reports the total number of internal files in each QDPX archive, as required by the course specification.
+
+The four DANS QDPX archives contain **511 total internal project files**:
+
+- `Sensing Risk (bertisum 2020-04-02).qdpx`: 9 files
+- `International Criminal Law Charging Document Database v7.qdpx`: 217 files
+- `Prosecution_Appeals_Briefs_V1.qdpx`: 70 files
+- `International_Criminal_Law_Charging_Document_Database_v6.qdpx`: 215 files
+
+Of these 511 files, **507 are classified primary files** used for ISIC classification. The remaining four files are QDE project-definition files. They are included in `no_project_files` because they are internal project files, but they are excluded from primary-file ISIC classification.
+
+The reproducible archive-count evidence is stored in:
+
+- `reports/qdpx_total_file_manifest.json`
+- `scripts/build_qdpx_total_file_manifest.py`
+
+
 ## Final Release Tag
 
 The final SQ26 Part 2 submission is identified by the annotated Git tag:

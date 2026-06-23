@@ -46,6 +46,7 @@ STUDENT_ID = "23071063"
 FINAL_DATABASE = Path(f"{STUDENT_ID}-sq26-classification.db")
 STAGING_DATABASE = Path("data/staging/qdarchive_x_staging.db")
 OUTPUT_DIRECTORY = Path("reports")
+TOTAL_FILE_MANIFEST = Path("reports/qdpx_total_file_manifest.json")
 
 XLSX_COLUMNS = [
     "repository_id",
@@ -117,8 +118,43 @@ def paragraph_text(value: Any) -> str:
     return html.escape(safe_text(value)).replace("\n", "<br/>")
 
 
+def load_total_project_file_counts(
+    manifest_path: Path,
+) -> dict[str, int]:
+    if not manifest_path.exists():
+        raise FileNotFoundError(
+            f"Total-file manifest not found: {manifest_path}"
+        )
+
+    payload = json.loads(manifest_path.read_text(encoding="utf-8"))
+    projects = payload.get("projects", {})
+
+    if not isinstance(projects, dict):
+        raise RuntimeError("Invalid total-file manifest: projects must be an object.")
+
+    counts: dict[str, int] = {}
+
+    for title, details in projects.items():
+        if not isinstance(details, dict):
+            raise RuntimeError(
+                f"Invalid manifest entry for project {title!r}."
+            )
+
+        value = details.get("total_internal_files")
+
+        if not isinstance(value, int) or value < 0:
+            raise RuntimeError(
+                f"Invalid total_internal_files value for {title!r}."
+            )
+
+        counts[str(title)] = value
+
+    return counts
+
+
 def fetch_final_export_rows(
     connection: sqlite3.Connection,
+    total_project_file_counts: dict[str, int],
 ) -> list[dict[str, Any]]:
     rows = connection.execute(
         """
@@ -128,7 +164,7 @@ def fetch_final_export_rows(
             p.title AS project_title,
             COALESCE(p.class, '') AS primary_class,
             COALESCE(p.secondary_class, '') AS secondary_class,
-            COUNT(f.id) AS no_project_files
+            COUNT(f.id) AS classified_primary_file_count
         FROM PROJECTS AS p
         LEFT JOIN FILES AS f
             ON f.project_id = p.id
@@ -145,7 +181,25 @@ def fetch_final_export_rows(
         """
     ).fetchall()
 
-    return [dict(row) for row in rows]
+    export_rows: list[dict[str, Any]] = []
+
+    for row in rows:
+        item = dict(row)
+        title = str(item["project_title"])
+        classified_primary_files = int(
+            item["classified_primary_file_count"]
+        )
+
+        item["no_project_files"] = int(
+            total_project_file_counts.get(
+                title,
+                classified_primary_files,
+            )
+        )
+
+        export_rows.append(item)
+
+    return export_rows
 
 
 def fetch_final_repository_summary(
@@ -968,8 +1022,13 @@ def build_pdf_report(
         if row["primary_class"]
     )
 
-    final_primary_files = sum(
+    final_total_project_files = sum(
         int(row["no_project_files"])
+        for row in export_rows
+    )
+
+    final_primary_files = sum(
+        int(row["classified_primary_file_count"])
         for row in export_rows
     )
 
@@ -1037,8 +1096,8 @@ def build_pdf_report(
                     "Final ISIC-classified projects",
                 ),
                 (
-                    f"{final_primary_files}",
-                    "Final classified primary files",
+                    f"{final_total_project_files}",
+                    "Final project files (total)",
                 ),
             ],
             styles,
@@ -1501,6 +1560,12 @@ def build_pdf_report(
         for project in repo_5_projects
     )
 
+    total_repo_5_project_files = sum(
+        int(row["no_project_files"])
+        for row in export_rows
+        if int(row["repository_id"]) == 5
+    )
+
     story.append(
         metric_row(
             [
@@ -1522,6 +1587,19 @@ def build_pdf_report(
                 ),
             ],
             styles,
+        )
+    )
+
+    story.append(
+        Paragraph(
+            f"The XLSX column <b>no_project_files</b> reports "
+            f"{total_repo_5_project_files} total internal QDPX project "
+            f"files for Repository 5. This includes four QDE "
+            f"project-definition files. The QDE files are included in "
+            f"the total-file requirement but excluded from primary-file "
+            f"ISIC classification; therefore, the classified primary-file "
+            f"total remains {total_repo_5_files}.",
+            styles["note"],
         )
     )
 
@@ -2300,10 +2378,17 @@ def main() -> None:
         "part2_deliverables_summary.json"
     )
 
+    total_project_file_counts = load_total_project_file_counts(
+        TOTAL_FILE_MANIFEST
+    )
+
     final_connection = connect_database(arguments.db)
 
     try:
-        export_rows = fetch_final_export_rows(final_connection)
+        export_rows = fetch_final_export_rows(
+            final_connection,
+            total_project_file_counts,
+        )
 
         repository_ids = [
             int(row["repository_id"])
@@ -2363,6 +2448,15 @@ def main() -> None:
         "staging_database": str(arguments.staging_db),
         "xlsx_output": str(xlsx_path),
         "pdf_output": str(pdf_path),
+        "total_file_manifest": str(TOTAL_FILE_MANIFEST),
+        "total_project_files": sum(
+            int(row["no_project_files"])
+            for row in export_rows
+        ),
+        "classified_primary_files": sum(
+            int(row["classified_primary_file_count"])
+            for row in export_rows
+        ),
         "generated_at_utc": datetime.now(timezone.utc).isoformat(),
         "verification": verification,
     }
