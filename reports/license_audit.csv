@@ -1,0 +1,17 @@
+project_id,repository_id,title,project_url,license,status
+8,5,Prosecution_Appeals_Briefs_V1.qdpx,https://ssh.datastations.nl/api/access/datafile/22470,cc-by-sa-4.0,VERIFIED_OPEN_LICENSE
+9,5,International_Criminal_Law_Charging_Document_Database_v6.qdpx,https://ssh.datastations.nl/api/access/datafile/22458,cc-by-sa-4.0,VERIFIED_OPEN_LICENSE
+10,5,Sensing Risk (bertisum 2020-04-02).qdpx,https://ssh.datastations.nl/api/access/datafile/14081,cc0-1.0,VERIFIED_OPEN_LICENSE
+11,5,International Criminal Law Charging Document Database v7.qdpx,https://ssh.datastations.nl/api/access/datafile/238544,cc-by-sa-4.0,VERIFIED_OPEN_LICENSE
+12,15,ICPSR Study 35509,https://www.icpsr.umich.edu/web/ICPSR/studies/35509,MISSING_LICENSE,LICENSE_METADATA_UNAVAILABLE_REQUIRES_MANUAL_VERIFICATION
+13,15,ICPSR Study 21600,https://www.icpsr.umich.edu/web/ICPSR/studies/21600,MISSING_LICENSE,LICENSE_METADATA_UNAVAILABLE_REQUIRES_MANUAL_VERIFICATION
+14,15,ICPSR Study 30722,https://www.icpsr.umich.edu/web/ICPSR/studies/30722,MISSING_LICENSE,LICENSE_METADATA_UNAVAILABLE_REQUIRES_MANUAL_VERIFICATION
+15,15,ICPSR Study 36395,https://www.icpsr.umich.edu/web/ICPSR/studies/36395,MISSING_LICENSE,LICENSE_METADATA_UNAVAILABLE_REQUIRES_MANUAL_VERIFICATION
+16,15,ICPSR Study 38024,https://www.icpsr.umich.edu/web/ICPSR/studies/38024,MISSING_LICENSE,LICENSE_METADATA_UNAVAILABLE_REQUIRES_MANUAL_VERIFICATION
+1,99,Polish debates on higher education in the Sejm and party manifestos,https://zenodo.org/api/records/14535515/files/Polish debates on higher education party manifestos.qdpx/content,odc-by,VERIFIED_OPEN_LICENSE
+2,99,Supporting Data for Scoping Review on Interlanguage Pragmatics in EFL Contexts,https://zenodo.org/api/records/16082705/files/EFL_ILP_ScopingReview_CodedData_20250718.qdpx/content,cc-by-4.0,VERIFIED_OPEN_LICENSE
+3,99,Polish debates on higher education in the Sejm and party manifestos,https://zenodo.org/api/records/14535515/files/Polish debates on higher education party manifestos.mx20/content,odc-by,VERIFIED_OPEN_LICENSE
+4,99,Polish debates on higher education in the Sejm and party manifestos,https://zenodo.org/api/records/14535515/files/Polish debates on higher education party manifestos.mx22/content,odc-by,VERIFIED_OPEN_LICENSE
+5,99,On the Way to SBOMs: Investigating Design Issues and Solutions in Practice,https://zenodo.org/api/records/10637929/files/SBOM data analysis_backup-20230125-232849.mx22/content,cc-by-4.0,VERIFIED_OPEN_LICENSE
+6,99,On the Way to SBOMs: Investigating Design Issues and Solutions in Practice,https://zenodo.org/api/records/10637929/files/SBOM data analysis_backup-20230124-215119.mx22/content,cc-by-4.0,VERIFIED_OPEN_LICENSE
+7,99,LGBTQI+ Refugees' and Asylum Seekers' Mental Health: A Qualitative Systematic Review,https://zenodo.org/api/records/6176286/files/MAXQUDA%20coding%20and%20data%20extraction.mx20/content,MISSING_LICENSE,LICENSE_METADATA_UNAVAILABLE_REQUIRES_MANUAL_VERIFICATION
