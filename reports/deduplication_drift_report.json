@@ -1,0 +1,34 @@
+{
+  "monitor_version": "deduplication-drift-monitor-v1",
+  "created_at_utc": "2026-06-22T21:43:57+00:00",
+  "staging_database_path": "data/staging/qdarchive_x_staging.db",
+  "previous_snapshot_available": false,
+  "deduplication_run_id": "dedup-run-b15001cb21eb489d",
+  "deduplication_status": "BASELINE_CREATED",
+  "deduplication_rerun_required": false,
+  "deduplication_drift_reasons": [
+    "No previous deduplication snapshot exists."
+  ],
+  "raw_project_count": 174891,
+  "candidate_cluster_count": 56164,
+  "confirmed_cluster_count": 56164,
+  "excluded_duplicate_count": 63753,
+  "deduplicated_project_count": 111138,
+  "scope_summary": {
+    "MY_CORE": {
+      "decision_records": 16,
+      "included_projects": 16,
+      "excluded_projects": 0
+    },
+    "PEER_SHARED": {
+      "decision_records": 174875,
+      "included_projects": 111122,
+      "excluded_projects": 63753
+    }
+  },
+  "input_fingerprint": "ca84b2017ff446715c1e9d3a843ada4f7970df080f207fe1276a16e264b6039e",
+  "decision_fingerprint": "63b8c45f0d4fd38d13021f5c2db8b2067472c602d25150d10e5a8eac188d41bb",
+  "raw_staging_records_modified": false,
+  "automatic_raw_record_deletion_performed": false,
+  "automatic_reclassification_performed": false
+}

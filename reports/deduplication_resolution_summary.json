@@ -1,0 +1,30 @@
+{
+  "run_id": "dedup-run-b15001cb21eb489d",
+  "resolution_version": "deduplication-resolution-v2",
+  "input_fingerprint": "ca84b2017ff446715c1e9d3a843ada4f7970df080f207fe1276a16e264b6039e",
+  "raw_staging_records_modified": false,
+  "raw_project_count": 174891,
+  "candidate_cluster_count": 56164,
+  "confirmed_cluster_count": 56164,
+  "excluded_duplicate_count": 63753,
+  "deduplicated_project_count": 111138,
+  "scope_summary": {
+    "MY_CORE": {
+      "raw_projects": 16,
+      "candidate_cluster_members": 0,
+      "candidate_clusters_touching_scope": 0,
+      "decision_records": 16,
+      "excluded_duplicates": 0,
+      "deduplicated_projects": 16
+    },
+    "PEER_SHARED": {
+      "raw_projects": 174875,
+      "candidate_cluster_members": 119917,
+      "candidate_clusters_touching_scope": 56164,
+      "decision_records": 174875,
+      "excluded_duplicates": 63753,
+      "deduplicated_projects": 111122
+    }
+  },
+  "automatic_removal_policy": "Only confirmed exact DOI plus normalized-title duplicates from DATASET_LIKE sources are excluded."
+}

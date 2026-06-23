@@ -1,0 +1,19 @@
+{
+  "foreign_key_check": "passed",
+  "output_database": "23071063-sq26-classification.db",
+  "primary_file_isic_division_counts": {
+    "N69": 499,
+    "N72": 8
+  },
+  "project_isic_division_counts": {
+    "N69": 3,
+    "N72": 1
+  },
+  "project_total": 9,
+  "qdpX_internal_primary_file_total": 507,
+  "repository_project_type_counts": {
+    "15|OTHER_PROJECT": 5,
+    "5|QDA_PROJECT": 4
+  },
+  "source_database": "data/staging/qdarchive_x_staging.db"
+}

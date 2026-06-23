@@ -1,0 +1,168 @@
+{
+  "quality_gate_version": "deduplication-quality-gate-v1",
+  "created_at_utc": "2026-06-22T22:08:27+00:00",
+  "staging_database_path": "data/staging/qdarchive_x_staging.db",
+  "passed": true,
+  "failed_check_count": 0,
+  "warning_count": 0,
+  "checks": [
+    {
+      "name": "sqlite_integrity",
+      "passed": true,
+      "severity": "error",
+      "expected": "ok",
+      "observed": "ok"
+    },
+    {
+      "name": "foreign_key_check",
+      "passed": true,
+      "severity": "error",
+      "expected": 0,
+      "observed": 0
+    },
+    {
+      "name": "required_deduplication_tables",
+      "passed": true,
+      "severity": "error",
+      "expected": [
+        "deduplicated_projects",
+        "deduplication_audit",
+        "deduplication_decisions",
+        "deduplication_project_tags",
+        "deduplication_runs",
+        "duplicate_cluster_members",
+        "duplicate_clusters",
+        "stg_projects"
+      ],
+      "observed": {
+        "missing": [],
+        "available": [
+          "data_quality_issues",
+          "deduplicated_projects",
+          "deduplication_audit",
+          "deduplication_decisions",
+          "deduplication_project_tags",
+          "deduplication_runs",
+          "duplicate_cluster_members",
+          "duplicate_clusters",
+          "import_audit",
+          "isic_file_classifications",
+          "isic_project_classifications",
+          "isic_project_tags",
+          "project_type_classifications",
+          "source_databases",
+          "source_granularity_profiles",
+          "sqlite_sequence",
+          "staging_meta",
+          "stg_files",
+          "stg_keywords",
+          "stg_licenses",
+          "stg_person_roles",
+          "stg_projects"
+        ]
+      }
+    },
+    {
+      "name": "raw_project_count_matches_staging",
+      "passed": true,
+      "severity": "error",
+      "expected": 174891,
+      "observed": 174891
+    },
+    {
+      "name": "decision_coverage",
+      "passed": true,
+      "severity": "error",
+      "expected": 174891,
+      "observed": 174891
+    },
+    {
+      "name": "deduplicated_analysis_coverage",
+      "passed": true,
+      "severity": "error",
+      "expected": 174891,
+      "observed": 174891
+    },
+    {
+      "name": "deduplication_count_conservation",
+      "passed": true,
+      "severity": "error",
+      "expected": 174891,
+      "observed": 174891
+    },
+    {
+      "name": "included_count_matches_run",
+      "passed": true,
+      "severity": "error",
+      "expected": 111138,
+      "observed": 111138
+    },
+    {
+      "name": "excluded_count_matches_run",
+      "passed": true,
+      "severity": "error",
+      "expected": 63753,
+      "observed": 63753
+    },
+    {
+      "name": "excluded_records_have_canonical_replacement",
+      "passed": true,
+      "severity": "error",
+      "expected": 0,
+      "observed": 0
+    },
+    {
+      "name": "canonical_record_not_excluded",
+      "passed": true,
+      "severity": "error",
+      "expected": 0,
+      "observed": 0
+    },
+    {
+      "name": "decision_audit_coverage",
+      "passed": true,
+      "severity": "error",
+      "expected": 0,
+      "observed": 0
+    },
+    {
+      "name": "decision_tag_coverage",
+      "passed": true,
+      "severity": "error",
+      "expected": 0,
+      "observed": 0
+    },
+    {
+      "name": "my_core_duplicate_impact",
+      "passed": true,
+      "severity": "error",
+      "expected": 0,
+      "observed": 0
+    },
+    {
+      "name": "deduplication_drift_report",
+      "passed": true,
+      "severity": "error",
+      "expected": {
+        "status": [
+          "BASELINE_CREATED",
+          "UNCHANGED"
+        ],
+        "rerun_required": false,
+        "raw_staging_records_modified": false,
+        "automatic_raw_record_deletion_performed": false,
+        "automatic_reclassification_performed": false,
+        "matches_latest_run": true
+      },
+      "observed": {
+        "status": "BASELINE_CREATED",
+        "rerun_required": false,
+        "raw_staging_records_modified": false,
+        "automatic_raw_record_deletion_performed": false,
+        "automatic_reclassification_performed": false,
+        "matches_latest_run": true
+      }
+    }
+  ],
+  "database_modified": false
+}
