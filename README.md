@@ -564,7 +564,7 @@ The project source code and original documentation are released under the MIT Li
 
 Repository metadata, QDPX archives, and other third-party research materials remain subject to their original repository terms, licences, access restrictions, and applicable data-protection requirements. They are not relicensed under MIT.
 
-Raw downloaded data, peer-shared databases, and the multi-source staging database are excluded from version control. The committed final SQLite database, XLSX export, PDF report, and reproducibility scripts contain only intended submission artifacts.
+Raw downloaded data, peer-shared databases, and the multi-source staging database are excluded from version control. The committed SQLite deliverables, XLSX export, PDF report, and reproducibility scripts contain only intended submission artifacts. Raw downloaded third-party data are not included.
 
 ## Validation Report Files
 
