@@ -538,6 +538,26 @@ Applied-Software-Engineering-Project/
 
 ---
 
+
+## Licence Verification Update
+
+Licence metadata was manually verified at the official DANS dataset level for the four DANS QDPX projects used in the final classification scope. The verified licence records and parent dataset DOIs were added to `23071063-seeding.db`.
+
+| QDPX project | Verified DANS dataset DOI | Verified licence | File access |
+|---|---|---|---|
+| `Sensing Risk (bertisum 2020-04-02).qdpx` | `doi:10.17026/DANS-ZRE-T3HD` | `CC0-1.0` | Open (`restricted: false`) |
+| `Prosecution_Appeals_Briefs_V1.qdpx` | `doi:10.17026/DANS-XWQ-KA6Y` | `CC-BY-SA-4.0` | Open (`restricted: false`) |
+| `International_Criminal_Law_Charging_Document_Database_v6.qdpx` | `doi:10.17026/DANS-ZCC-ZDHP` | `CC-BY-SA-4.0` | Open (`restricted: false`) |
+| `International Criminal Law Charging Document Database v7.qdpx` | `doi:10.17026/DANS-ZCC-ZDHP` | `CC-BY-SA-4.0` | Open (`restricted: false`) |
+
+The detailed verification evidence is stored in:
+
+- `reports/dans_license_review.md`
+- `reports/license_audit.csv`
+
+Licence values for records without explicit official source evidence remain unavailable. No licence values were inferred or invented.
+
+
 # License and Third-Party Data Notice
 
 The project source code and original documentation are released under the MIT License.
