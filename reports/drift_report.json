@@ -1,0 +1,111 @@
+{
+  "monitor_version": "drift-monitor-v1",
+  "created_at_utc": "2026-06-21T23:16:57+00:00",
+  "database_path": "23071063-sq26-classification.db",
+  "raw_data_root": "data/raw",
+  "previous_snapshot_available": true,
+  "database_sha256": "3751b9aa827f5e39681b0a456541016642c0767e4e5687eef13493788082b9c3",
+  "database_changed": false,
+  "schema_fingerprint": "8471052321327463fb35341e178e9ccca71125623fc74113c0f072cc98fb52cd",
+  "project_count": 9,
+  "official_qdpx_archive_count": 4,
+  "project_drift": {
+    "1": {
+      "status": "UNCHANGED",
+      "reclassification_required": false,
+      "reasons": [
+        "UNCHANGED"
+      ]
+    },
+    "2": {
+      "status": "UNCHANGED",
+      "reclassification_required": false,
+      "reasons": [
+        "UNCHANGED"
+      ]
+    },
+    "3": {
+      "status": "UNCHANGED",
+      "reclassification_required": false,
+      "reasons": [
+        "UNCHANGED"
+      ]
+    },
+    "4": {
+      "status": "UNCHANGED",
+      "reclassification_required": false,
+      "reasons": [
+        "UNCHANGED"
+      ]
+    },
+    "5": {
+      "status": "UNCHANGED",
+      "reclassification_required": false,
+      "reasons": [
+        "UNCHANGED"
+      ]
+    },
+    "6": {
+      "status": "UNCHANGED",
+      "reclassification_required": false,
+      "reasons": [
+        "UNCHANGED"
+      ]
+    },
+    "7": {
+      "status": "UNCHANGED",
+      "reclassification_required": false,
+      "reasons": [
+        "UNCHANGED"
+      ]
+    },
+    "8": {
+      "status": "UNCHANGED",
+      "reclassification_required": false,
+      "reasons": [
+        "UNCHANGED"
+      ]
+    },
+    "9": {
+      "status": "UNCHANGED",
+      "reclassification_required": false,
+      "reasons": [
+        "UNCHANGED"
+      ]
+    }
+  },
+  "archive_drift": {
+    "1": {
+      "status": "UNCHANGED",
+      "reclassification_required": false,
+      "reasons": [
+        "UNCHANGED"
+      ]
+    },
+    "2": {
+      "status": "UNCHANGED",
+      "reclassification_required": false,
+      "reasons": [
+        "UNCHANGED"
+      ]
+    },
+    "3": {
+      "status": "UNCHANGED",
+      "reclassification_required": false,
+      "reasons": [
+        "UNCHANGED"
+      ]
+    },
+    "4": {
+      "status": "UNCHANGED",
+      "reclassification_required": false,
+      "reasons": [
+        "UNCHANGED"
+      ]
+    }
+  },
+  "reclassification_required_project_ids": [],
+  "reclassification_required_count": 0,
+  "automatic_reclassification_performed": false,
+  "automatic_database_modification_performed": false
+}
