@@ -402,6 +402,16 @@ The project also includes official delivery automation for:
 
 # Submission Artifacts
 
+## Final Release Tag
+
+The final SQ26 Part 2 submission is identified by the annotated Git tag:
+
+~~~~text
+classification-results
+~~~~
+
+The tag points to the final commit containing the official database, XLSX export, PDF report, README, reproducibility scripts, and validation artifacts.
+
 ## Part 1 database
 
 ~~~~text
@@ -527,6 +537,32 @@ Applied-Software-Engineering-Project/
 ~~~~
 
 ---
+
+# License and Third-Party Data Notice
+
+The project source code and original documentation are released under the MIT License.
+
+Repository metadata, QDPX archives, and other third-party research materials remain subject to their original repository terms, licences, access restrictions, and applicable data-protection requirements. They are not relicensed under MIT.
+
+Raw downloaded data, peer-shared databases, and the multi-source staging database are excluded from version control. The committed final SQLite database, XLSX export, PDF report, and reproducibility scripts contain only intended submission artifacts.
+
+## Validation Report Files
+
+Two independent validation layers are retained:
+
+~~~~text
+reports/deduplication_drift_report.json
+reports/deduplication_quality_gate.json
+~~~~
+
+These document the internal multi-source deduplication extension.
+
+~~~~text
+reports/drift_report.json
+reports/release_quality_gate.json
+~~~~
+
+These document official MY_CORE delivery drift monitoring and release-quality validation.
 
 # Engineering Principles
 
